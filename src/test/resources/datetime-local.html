@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta charset="UTF-8" />
+<title>DateTime-Local</title>
+<script src="jquery.min.js"></script> 
+</head>
+<body>
+  <script type="text/javascript">
+  	$(document).ready(function() {
+
+//    Works (set's the value in the DOM and value can be changed in HTMLUnit Java Code)
+//   	  document.forms.theform.textField = "Initialised";
+//   	  document.forms.theform.timestampField = "2021-12-17T15:15";
+
+// 	  Doesn't work (set's the value in the DOM but field can't be changed in HTMLUnit)
+  	  $("#textField").val("Initialised");
+  	  $("#timestampField").val("2021-12-17T15:15");
+  	  
+  	  $("#theform").submit(function(e) {
+        console.log("on submit. timestampField="+$("#timestampField").val());
+        console.log("on submit. textField="+$("#textField").val());
+        e.preventDefault();
+      });
+  	});
+  </script>
+  <form id="theform" action="#" method="post" enctype="multipart/form-data">
+    <div>
+      <label for="timestampField" >Timestamp: </label> 
+      <input id="timestampField" name="timestampField" type="datetime-local" />
+    </div>
+    <div>
+      <label for="textField" >Text: </label> 
+      <input id="textField" name="textField" type="text" />
+    </div>
+    <div>
+      <input type="submit" name="submit" value="submit" >
+    </div>
+  </form>
+</body>
+</html>
