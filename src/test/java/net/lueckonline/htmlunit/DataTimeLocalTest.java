@@ -27,6 +27,7 @@ public class DataTimeLocalTest {
     try(WebClient webClient = new WebClient()) {
       URL resource = this.getClass().getResource("/datetime-local.html");
       HtmlPage formPage = webClient.getPage(resource);
+      webClient.waitForBackgroundJavaScript(100);
       
       HtmlForm form = formPage.getHtmlElementById("theform");
       form.getInputByName("textField").setValueAttribute("Foobar");
