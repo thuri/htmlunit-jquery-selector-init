@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+
+<script type="text/javascript">
+
+    function onSubmitHandler(submitEvent) {
+      
+      $("#resultcontainer").html("in progress");
+      
+	  submitEvent.preventDefault();
+	  
+	  const method = $("#httpMethod").val();
+	  const enctype = $("#enctype").val();
+	  const uriparamValue = $("#uriparamValue").val();
+	  
+	  console.log("method  = "+method);
+	  console.log("enctype  = "+enctype);
+	  console.log("uriparamValue  = "+uriparamValue);
+	  
+	  const ajaxRequest = {
+        type: method,
+        enctype: enctype,
+        url: submitEvent.target.action,
+        success: function(data) {
+          console.log("success handler called");
+          $("#resultcontainer").html(data);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          console.log("error handler called");
+          $("#resultcontainer").html("error handler of form submit "+textStatus + " " + errorThrown);
+        }
+      };
+	  
+	  switch(enctype) {
+	  	case "multipart/form-data":
+	      ajaxRequest.data = new FormData(submitEvent.target);
+	      ajaxRequest.processData = false;
+	      ajaxRequest.contentType = false;
+	      break;
+	  	case "application/x-www-form-urlencoded":
+  	  	  ajaxRequest.data = {
+	  	    textInput: submitEvent.target.textInput.value,
+	  	    checkboxInput: submitEvent.target.checkboxInput.checked,
+	  	    hiddenInput: submitEvent.target.hiddenInput.value
+	  	  };
+	  	  break;
+	  }
+	  $.ajax(ajaxRequest);
+    }
+</script>
+</head>
+<body>
+
+<form id="theform" action="#" th:action="@{/ajax/testpage}" onsubmit="onSubmitHandler(event);">
+
+  <select id="httpMethod" name="httpMethod">
+    <option value="GET">GET</option>
+    <option value="POST">POST</option>
+  </select>
+  <select id="enctype" name="enctype">
+    <option value="multipart/form-data">multipart/form-data</option>
+    <option value="application/x-www-form-urlencoded">application/x-www-form-urlencoded</option>
+  </select>
+  <input id="uriparamValue" name="uriparamValue" placeholder="uriParamValue"/>
+  
+  <input name="textInput" type="text" placeholder="customTextInput" />
+  <input name="checkboxInput" type="checkbox"/>
+  <input name="hiddenInput" type="hidden" th:value="${#strings.randomAlphanumeric(15)}" />
+  <input name="submit" type="submit" /> 
+</form>
+
+<form id="nonajaxFormWithPOST" method="post" th:action="@{/ajax/testpage}">
+  <input name="textInput" type="text" placeholder="customTextInput" />
+  <input name="checkboxInput" type="checkbox"/>
+  <input name="hiddenInput" type="hidden" th:value="${#strings.randomAlphanumeric(15)}" />
+  <input name="submit" type="submit" /> 
+</form>
+
+<div id="resultcontainer">
+
+</div>
+  
+
+</body>
+</html>
