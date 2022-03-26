@@ -35,7 +35,7 @@ public class DateStringConversionTest {
       
       URL resource = this.getClass().getResource("/dateStringConversionTest.html");
       HtmlPage formPage = webClient.getPage(resource);
-      webClient.waitForBackgroundJavaScript(100);
+      webClient.waitForBackgroundJavaScript(500);
       
       HtmlForm form = formPage.getHtmlElementById("theform");
       
