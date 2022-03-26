@@ -18,7 +18,7 @@
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
     
-    <htmlunit.version>2.57.0-SNAPSHOT</htmlunit.version>
+    <htmlunit.version>2.61.0-SNAPSHOT</htmlunit.version>
     <jquery.version>3.5.1</jquery.version>
     <webjars-locator.version>0.42</webjars-locator.version>
   </properties>
